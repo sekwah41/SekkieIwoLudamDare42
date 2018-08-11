@@ -10,6 +10,8 @@ namespace Game
 
         new Camera camera;
 
+        public float maxLookAmount;
+
         Plane groundPlane = new Plane(new Vector3(0, 1, 0), new Vector3(0, 0, 0));
 
         // Use this for initialization
@@ -55,19 +57,34 @@ namespace Game
         {
             Vector3 wantedLoc = player.transform.position - this.transform.position;
 
-            this.transform.position += wantedLoc;
+            float movePercent = 4f * Time.deltaTime;
+            if(movePercent > 1)
+            {
+                movePercent = 1;
+            }
 
-            Vector2 looking;
+            Vector3 looking;
 
             float z = Input.GetAxisRaw("VerticalAim");
             float x = Input.GetAxisRaw("HorizontalAim");
 
             if (useMouse)
             {
-                looking = new Vector2(-Screen.width * 0.5f, -Screen.width * 0.5f);
+                int smallest = Screen.width > Screen.height ? Screen.height : Screen.width;
+                looking = new Vector3(-Screen.width * 0.5f + Input.mousePosition.x, 0, -Screen.height * 0.5f + Input.mousePosition.y);
+                looking = looking.normalized * (looking.magnitude / smallest);
             }
-            float posX = Screen.width * 0.5f;
-            float posY = Screen.width * 0.5f;
+            else
+            {
+                looking = new Vector3(x,0,z);
+            }
+
+            Debug.Log(looking);
+
+            wantedLoc += looking * maxLookAmount;
+
+
+            this.transform.position += wantedLoc * movePercent;
 
 
         }

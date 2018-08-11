@@ -8,6 +8,12 @@ namespace Game
         public float playerSpeed = 3;
         public float bulletSpeed = 20;
 
+        public float rateOfFire = 20;
+
+        public float shotReload = 0;
+
+        bool hasFired = false;
+
         CharacterController controller;
         Vector3 direction = new Vector3(0, 0, 0);
         float yOrientation = 0F;
@@ -24,8 +30,15 @@ namespace Game
             Movement();
             this.transform.rotation = Quaternion.Euler(0, yOrientation, 0);
 
-            if (Input.GetMouseButtonDown(0))
+            if (hasFired && Input.GetAxis("Trigger") != 1)
             {
+                hasFired = false;
+            }
+
+            if (Input.GetMouseButtonDown(0) || (!hasFired && Input.GetAxis("Trigger") == 1))
+            {
+                hasFired = true;
+                shotReload = rateOfFire;
                 Shoot();
             }
         }
