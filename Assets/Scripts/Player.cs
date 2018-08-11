@@ -5,8 +5,8 @@ namespace Game
 {
     public class Player : MonoBehaviour
     {
-
         public float playerSpeed = 3;
+        public float bulletSpeed = 20;
 
         CharacterController controller;
         Vector3 direction = new Vector3(0, 0, 0);
@@ -23,6 +23,11 @@ namespace Game
         {
             Movement();
             this.transform.rotation = Quaternion.Euler(0, yOrientation, 0);
+
+            if (Input.GetMouseButtonDown(0))
+            {
+                Shoot();
+            }
         }
 
         /**
@@ -35,7 +40,7 @@ namespace Game
 
             Vector3 velocity = new Vector3(x, 0, z);
 
-            if(x*x + z * z > 1)
+            if (x * x + z * z > 1)
             {
                 direction = velocity.normalized * playerSpeed;
             }
@@ -51,7 +56,16 @@ namespace Game
         public void AimTowards(Vector3 point)
         {
             Vector3 diff = point - transform.position;
-            yOrientation = (float) (Math.Atan2(diff.x, diff.z) / Math.PI * 180.0F);
+            yOrientation = Mathf.Atan2(diff.x, diff.z) / Mathf.PI * 180.0F;
+        }
+
+        public void Shoot()
+        {
+            Debug.Log("Shoot");
+            Vector3 direction = new Vector3(Mathf.Sin(yOrientation * Mathf.PI / 180.0F), 0, Mathf.Cos(yOrientation * Mathf.PI / 180.0F));
+            GameObject bulletObject = Instantiate(GameManager.Instance.bulletPrefab);
+            bulletObject.transform.SetPositionAndRotation(transform.position, Quaternion.identity);
+            bulletObject.GetComponent<Bullet>().SetVelocity(direction.normalized * bulletSpeed);
         }
     }
 }
