@@ -16,9 +16,7 @@ namespace Game
 
         public void SetBlock(Block block)
         {
-            uint index = (uint) block.X << 16;
-            index |= (ushort) block.Y;
-            Blocks.Add(index, block);
+            Blocks[GetIndexForCoords(block.X, block.Y)] = block;
 
             if (TileMapObject != null)
             {
@@ -28,9 +26,13 @@ namespace Game
 
         public Block GetBlock(short x, short y)
         {
-            uint index = (uint) x << 16;
-            index |= (ushort) y;
-            return Blocks[index];
+            uint index = GetIndexForCoords(x, y);
+            return Blocks.ContainsKey(index) ? Blocks[index] : null;
+        }
+
+        public bool HasBlock(short x, short y)
+        {
+            return Blocks.ContainsKey(GetIndexForCoords(x, y));
         }
 
         public void CreateRepresentation()
@@ -45,6 +47,13 @@ namespace Game
             {
                 pair.Value.CreateRepresentation(TileMapObject);
             }
+        }
+
+        private uint GetIndexForCoords(short x, short y)
+        {
+            uint index = (uint)x << 16;
+            index |= (ushort)y;
+            return index;
         }
     }
 }

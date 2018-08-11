@@ -53,3 +53,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   blockPrefab: {fileID: 1699505883994856, guid: cd8a9e3cceba8ad4080f12c2d29aa8bd,
     type: 2}
+  bulletPrefab: {fileID: 1492256772386232, guid: 0999aa38ef98f254eaa28922ccc81bda,
+    type: 2}

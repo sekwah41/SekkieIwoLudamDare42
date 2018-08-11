@@ -6,24 +6,25 @@ namespace Game
     {
         public static GameManager Instance { get; private set; }
 
-        TileMap tileMap;
-        
         public GameObject blockPrefab;
+        public GameObject bulletPrefab;
+
+        public TileMap TileMap { get; set; }
 
         void Awake()
         {
             Instance = this;
 
-            tileMap = new TileMap();
+            TileMap = new TileMap();
         }
 
         void Start()
         {
-            tileMap.SetBlock(new Block(0, 0, Color.Colors[0]));
-            tileMap.SetBlock(new Block(1, 0, Color.Colors[1]));
-            tileMap.SetBlock(new Block(2, 0, Color.Colors[2]));
-            tileMap.SetBlock(new Block(3, 0, Color.Colors[3]));
-            tileMap.CreateRepresentation();
+            TileMap.SetBlock(new Block(0, 0, Color.Colors[0]));
+            TileMap.SetBlock(new Block(1, 0, Color.Colors[1]));
+            TileMap.SetBlock(new Block(2, 0, Color.Colors[2]));
+            TileMap.SetBlock(new Block(3, 0, Color.Colors[3]));
+            TileMap.CreateRepresentation();
         }
     }
 }
