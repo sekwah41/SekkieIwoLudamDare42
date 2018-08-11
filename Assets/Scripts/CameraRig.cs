@@ -14,7 +14,7 @@ namespace Game
         }
 
         // Update is called once per frame
-        void Update()
+        void LateUpdate()
         {
             Vector3 position = player.transform.position;
             this.transform.position = position;
