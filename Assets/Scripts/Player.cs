@@ -25,7 +25,7 @@ namespace Game
         void Movement()
         {
             float z = Input.GetAxisRaw("Vertical");
-            float x = Input.GetAxisRaw("Hotizontal");
+            float x = Input.GetAxisRaw("Horizontal");
 
             Vector3 velocity = new Vector3(x, 0, z);
 
