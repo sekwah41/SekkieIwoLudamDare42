@@ -35,7 +35,7 @@ namespace Game
 
             Vector3 velocity = new Vector3(x, 0, z);
 
-            if(x*x + z * z < 1)
+            if(x*x + z * z > 1)
             {
                 direction = velocity.normalized * playerSpeed;
             }
