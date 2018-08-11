@@ -4,8 +4,7 @@ namespace Game
 {
     public class CameraRig : MonoBehaviour
     {
-
-        Player player;
+        public Player player;
 
         // Use this for initialization
         void Start()
