@@ -18,6 +18,5 @@ namespace Game
         {
             agent.SetDestination(new Vector3(0, 0, 100));
         }
-
     }
 }

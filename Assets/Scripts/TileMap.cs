@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace Game
@@ -16,6 +17,11 @@ namespace Game
 
         public void SetBlock(short x, short y, ColorType colorType, bool checkClusters = true)
         {
+            if (HasBlock(x, y))
+            {
+                GetBlock(x, y).Break();
+            }
+
             Block block = new Block(this, x, y, colorType);
             Blocks[GetIndexForCoords(x, y)] = block;
 

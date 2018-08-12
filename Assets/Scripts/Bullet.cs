@@ -37,7 +37,7 @@ namespace Game
 
             TileMap tileMap = GameManager.Instance.TileMap;
 
-            if (tileMap.HasBlock(tileX, tileZ))
+            if (tileMap.HasBlock(tileX, tileZ) || GameManager.Instance.IsOutOfBounds(tileX, tileZ))
             {
                 if (ColorType != null)
                 {
@@ -52,14 +52,21 @@ namespace Game
 
             Ray ray = new Ray(transform.position, transform.forward);
 
-            RaycastHit[] hits = Physics.RaycastAll(ray, 2);
+            RaycastHit[] hits = Physics.RaycastAll(ray, 1);
 
             foreach (RaycastHit hit in hits) {
                 EnemyBehaviour enemyBehaviour = hit.transform.gameObject.GetComponent<EnemyBehaviour>();
                 if (enemyBehaviour != null)
                 {
-                    Destroy(enemyBehaviour.gameObject);
-                    SetColor(enemyBehaviour.color);
+                    if (ColorType == null)
+                    {
+                        Destroy(enemyBehaviour.gameObject);
+                        SetColor(enemyBehaviour.color);
+                    }
+                    else if (enemyBehaviour.color == ColorType)
+                    {
+                        Destroy(enemyBehaviour.gameObject);
+                    }
                 }
             }
             

@@ -9,11 +9,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 71c1514a6bd24e1e882cebbe1904ce04, type: 3}
-  m_Name: DoHyeon-Regular SDF
+  m_Name: DoHyeon-Regular2 SDF
   m_EditorClassIdentifier: 
-  hashCode: 391834008
-  material: {fileID: 21968098390635622}
-  materialHashCode: 1708976147
+  hashCode: 69920714
+  material: {fileID: 21799679183393822}
+  materialHashCode: -980413183
   fontAssetType: 1
   m_fontInfo:
     Name: Do Hyeon
@@ -37,7 +37,7 @@ MonoBehaviour:
     Padding: 5
     AtlasWidth: 512
     AtlasHeight: 512
-  atlas: {fileID: 28003103318042480}
+  atlas: {fileID: 28169176740145644}
   m_glyphInfoList:
   - id: 33
     x: 78
@@ -955,13 +955,13 @@ MonoBehaviour:
   boldSpacing: 7
   italicStyle: 35
   tabSize: 10
---- !u!21 &21968098390635622
+--- !u!21 &21799679183393822
 Material:
   serializedVersion: 6
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_Name: DoHyeon-Regular SDF Material
+  m_Name: DoHyeon-Regular2 SDF Material
   m_Shader: {fileID: 4800000, guid: 68e6db2ebdc24f95958faec2be5558d6, type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 4
@@ -986,7 +986,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
-        m_Texture: {fileID: 28003103318042480}
+        m_Texture: {fileID: 28169176740145644}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _OutlineTex:
@@ -995,11 +995,11 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Floats:
     - _Ambient: 0.5
-    - _Bevel: 0.5
-    - _BevelClamp: 0
-    - _BevelOffset: 0
-    - _BevelRoundness: 0
-    - _BevelWidth: 0
+    - _Bevel: 0.085
+    - _BevelClamp: 0.476
+    - _BevelOffset: -0.468
+    - _BevelRoundness: 0.049
+    - _BevelWidth: -0.4
     - _BumpFace: 0
     - _BumpOutline: 0
     - _ColorMask: 15
@@ -1018,7 +1018,7 @@ Material:
     - _OutlineSoftness: 0
     - _OutlineUVSpeedX: 0
     - _OutlineUVSpeedY: 0
-    - _OutlineWidth: 0.324
+    - _OutlineWidth: 0.19
     - _PerspectiveFilter: 0.875
     - _Reflectivity: 10
     - _ScaleRatioA: 0.8333333
@@ -1054,12 +1054,12 @@ Material:
     - _ReflectOutlineColor: {r: 0, g: 0, b: 0, a: 1}
     - _SpecularColor: {r: 1, g: 1, b: 1, a: 1}
     - _UnderlayColor: {r: 0, g: 0, b: 0, a: 0.5}
---- !u!28 &28003103318042480
+--- !u!28 &28169176740145644
 Texture2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_Name: DoHyeon-Regular SDF Atlas
+  m_Name: DoHyeon-Regular2 SDF Atlas
   m_ImageContentsHash:
     serializedVersion: 2
     Hash: 00000000000000000000000000000000

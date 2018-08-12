@@ -13,6 +13,8 @@ namespace Game.UI
 
         float displayedScoref = 0;
 
+        float popUpAnimation = 0;
+
         // Use this for initialization
         void Start() {
             GameManager.Instance.Points.RegisterOnChangedHandler(HandleScoreChanged);
@@ -30,13 +32,22 @@ namespace Game.UI
                 {
                     movePercent = 1;
                 }
+
                 displayedScoref += (score - displayedScoref) * movePercent;
                 int updateScore = (int) Mathf.Round(displayedScoref);
                 if (updateScore != displayedScore)
                 {
                     UpdateText(updateScore);
                 }
-                
+            }
+
+            if (popUpAnimation > 0)
+            {
+                popUpAnimation -= Time.deltaTime * 1.6F;
+                if (popUpAnimation < 0)
+                    popUpAnimation = 0;
+
+                textComponent.fontSize = 60 + popUpAnimation * 30;
             }
         }
 
@@ -44,6 +55,7 @@ namespace Game.UI
         {
             displayedScore = score;
             textComponent.text = "" + score;
+            popUpAnimation = 1;
         }
 
         void HandleScoreChanged(int newScore)

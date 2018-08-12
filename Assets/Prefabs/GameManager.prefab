@@ -51,10 +51,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a520d7866b06abd468cbf7ac1913fd7d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  player: {fileID: 0}
   blockPrefab: {fileID: 1699505883994856, guid: cd8a9e3cceba8ad4080f12c2d29aa8bd,
     type: 2}
   bulletPrefab: {fileID: 1492256772386232, guid: 0999aa38ef98f254eaa28922ccc81bda,
     type: 2}
+  wallPrefab: {fileID: 1146908867253844, guid: 297942fd93219574c889c242ac47f254, type: 2}
   spawners:
   - enemyPrefab: {fileID: 1016855031012828, guid: c36022cb8f54deb46894d13463047b8d,
       type: 2}
@@ -62,3 +64,6 @@ MonoBehaviour:
   - enemyPrefab: {fileID: 1016855031012828, guid: 6b80d1122e25a3f4bbc845297abd037e,
       type: 2}
     spawnDelay: 3
+  WaveDuration: 60
+  SizePerWaveIncrement: 3
+  timeAllowedWithoutCombo: 20

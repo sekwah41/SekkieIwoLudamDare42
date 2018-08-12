@@ -7,9 +7,7 @@ namespace Game
     {
         public float playerSpeed = 3;
         public float bulletSpeed = 20;
-
         public float rateOfFire = 20;
-
         public float shotReload = 0;
 
         bool hasFired = false;
