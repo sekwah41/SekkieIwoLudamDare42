@@ -21,6 +21,7 @@ GameObject:
   - component: {fileID: 4729538509475348}
   - component: {fileID: 114001663583677304}
   - component: {fileID: 65564147519195248}
+  - component: {fileID: 195652124119803838}
   m_Layer: 10
   m_Name: RedEnemy
   m_TagString: Enemy
@@ -67,7 +68,7 @@ Transform:
   m_GameObject: {fileID: 1016855031012828}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -3.32, y: 0.5, z: -3.26}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.99, y: 0.99, z: 0.99}
   m_Children:
   - {fileID: 4395974682193772}
   m_Father: {fileID: 0}
@@ -151,3 +152,25 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   color: 0
+  player: {fileID: 0}
+--- !u!195 &195652124119803838
+NavMeshAgent:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1016855031012828}
+  m_Enabled: 1
+  m_AgentTypeID: 0
+  m_Radius: 0.5
+  m_Speed: 3.5
+  m_Acceleration: 8
+  avoidancePriority: 50
+  m_AngularSpeed: 120
+  m_StoppingDistance: 0
+  m_AutoTraverseOffMeshLink: 1
+  m_AutoBraking: 1
+  m_AutoRepath: 1
+  m_Height: 2
+  m_BaseOffset: 0
+  m_WalkableMask: 4294967295
+  m_ObstacleAvoidanceType: 4

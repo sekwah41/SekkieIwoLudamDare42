@@ -9,6 +9,8 @@ namespace Game
     {
         public static GameManager Instance { get; private set; }
 
+        public Player player;
+
         public GameObject blockPrefab;
         public GameObject bulletPrefab;
         public EnemySpawner[] spawners;
