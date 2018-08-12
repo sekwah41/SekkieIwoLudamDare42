@@ -126,7 +126,9 @@ namespace Game
                         hitZ--;
                 }
             }
-            
+
+            GameManager.Instance.PlayCrystaliseSound();
+
             if (ColorType != null)
                 tileMap.SetBlock(hitX, hitZ, ColorType ?? Game.ColorType.RED);
         }

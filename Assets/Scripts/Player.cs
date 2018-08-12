@@ -13,6 +13,7 @@ namespace Game
         bool hasFired = false;
 
         CharacterController controller;
+        AudioSource audioSource;
         Vector3 direction = new Vector3(0, 0, 0);
         float yOrientation = 0F;
 
@@ -20,6 +21,7 @@ namespace Game
         void Start()
         {
             controller = GetComponent<CharacterController>();
+            audioSource = GetComponent<AudioSource>();
         }
 
         // Update is called once per frame
@@ -76,6 +78,8 @@ namespace Game
             GameObject bulletObject = Instantiate(GameManager.Instance.bulletPrefab);
             bulletObject.transform.SetPositionAndRotation(transform.position, Quaternion.identity);
             bulletObject.GetComponent<Bullet>().SetVelocity(direction.normalized * bulletSpeed);
+
+            audioSource.Play();
         }
     }
 }

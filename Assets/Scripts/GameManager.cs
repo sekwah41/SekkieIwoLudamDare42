@@ -11,6 +11,8 @@ namespace Game
         public static GameManager Instance { get; private set; }
 
         public Player player;
+        public AudioClip crystaliseAudio;
+        public AudioClip clusterAudio;
 
         public GameObject blockPrefab;
         public GameObject bulletPrefab;
@@ -28,6 +30,8 @@ namespace Game
         public float WaveTimer { get; private set; }
         public float TimeLeftUntilComboDeath { get; private set; }
 
+        AudioSource audioSource;
+
         int xRadius = 10;
         int yRadius = 10;
 
@@ -35,6 +39,7 @@ namespace Game
         {
             Instance = this;
 
+            audioSource = GetComponent<AudioSource>();
             CurrentScreen = ScreenType.MAIN_MENU;
             TileMap = new TileMap();
             Walls = new Walls();
@@ -186,6 +191,16 @@ namespace Game
         {
             Points.Value = Points.Value + points;
             TimeLeftUntilComboDeath = timeAllowedWithoutCombo;
+        }
+
+        public void PlayCrystaliseSound()
+        {
+            audioSource.PlayOneShot(crystaliseAudio);
+        }
+
+        public void PlayClusterSound()
+        {
+            audioSource.PlayOneShot(clusterAudio);
         }
 
         IEnumerator HandleSpawnEnemy(EnemySpawner spawner)

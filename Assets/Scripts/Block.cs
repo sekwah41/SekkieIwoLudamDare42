@@ -41,6 +41,8 @@ namespace Game
             List<Block> cluster = GetCluster();
             if (cluster.Count >= 3)
             {
+                GameManager.Instance.PlayClusterSound();
+
                 foreach (Block block in cluster)
                 {
                     block.Break();
