@@ -4,6 +4,6 @@ namespace Game
 {
     public class EnemyBehaviour : MonoBehaviour
     {
-        public Color color;
+        public ColorType color;
     }
 }

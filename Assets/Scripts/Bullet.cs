@@ -4,12 +4,21 @@ namespace Game
 {
     public class Bullet : MonoBehaviour
     {
+        public ColorType? ColorType { get; set; }
+
+        new MeshRenderer renderer;
+        TrailRenderer trailRenderer;
+
         Vector3 Velocity { get; set; }
         float Lifetime { get; set; }
 
-        void Start()
+        void Awake()
         {
+            ColorType = null;
             Lifetime = 2;
+
+            renderer = GetComponent<MeshRenderer>();
+            trailRenderer = GetComponent<TrailRenderer>();
         }
 
         void Update()
@@ -23,8 +32,37 @@ namespace Game
                 Destroy(gameObject);
             }
 
+            short tileX = (short)Mathf.FloorToInt(newPosition.x);
+            short tileZ = (short)Mathf.FloorToInt(newPosition.z);
 
+            TileMap tileMap = GameManager.Instance.TileMap;
 
+            if (tileMap.HasBlock(tileX, tileZ))
+            {
+                if (ColorType != null)
+                {
+                    TryPlaceAfterHitting(tileX, tileZ);
+                }
+                else
+                {
+                    TryTriggerChainReaction(tileX, tileZ);
+                }
+                Destroy(gameObject);
+            }
+
+            Ray ray = new Ray(transform.position, transform.forward);
+
+            RaycastHit[] hits = Physics.RaycastAll(ray, 2);
+
+            foreach (RaycastHit hit in hits) {
+                EnemyBehaviour enemyBehaviour = hit.transform.gameObject.GetComponent<EnemyBehaviour>();
+                if (enemyBehaviour != null)
+                {
+                    Destroy(enemyBehaviour.gameObject);
+                    SetColor(enemyBehaviour.color);
+                }
+            }
+            
             transform.position = newPosition;
         }
 
@@ -35,56 +73,66 @@ namespace Game
             transform.rotation = Quaternion.Euler(0, angle / Mathf.PI * 180.0f, 0);
         }
 
-        void OnCollisionEnter(Collision collision)
+        public void SetColor(ColorType colorType)
         {
-            Destroy(gameObject);
+            ColorType = colorType;
+            Color color = ColorUtils.GetColor(ColorType ?? Game.ColorType.RED);
+            renderer.material.color = color;
+            trailRenderer.startColor = color;
+            trailRenderer.endColor = color;
+        }
 
-            float xPosition = transform.position.x;
-            float zPosition = transform.position.z;
-            short tileX = (short) Mathf.FloorToInt(xPosition);
-            short tileZ = (short) Mathf.FloorToInt(zPosition);
-
+        void TryPlaceAfterHitting(short hitX, short hitZ)
+        {
             TileMap tileMap = GameManager.Instance.TileMap;
 
-            if (tileMap.HasBlock(tileX, tileZ))
-            {
-                if (xPosition % 1 < 0.5F)
-                    tileX--;
-                else
-                    tileX++;
+            bool canPlaceX = !tileMap.HasBlock((short)(Velocity.x < 0 ? hitX + 1 : hitX - 1), hitZ);
+            bool canPlaceZ = !tileMap.HasBlock(hitX, (short)(Velocity.z < 0 ? hitZ + 1 : hitZ - 1));
 
-                if (zPosition % 1 < 0.5F)
-                    tileZ--;
+            if (!canPlaceX && !canPlaceZ)
+            {
+                // Place diagonal
+                if (Velocity.x < 0)
+                    hitX++;
                 else
-                    tileZ++;
+                    hitX--;
+
+                if (Velocity.z < 0)
+                    hitZ++;
+                else
+                    hitZ--;
             }
             else
             {
-                if (!tileMap.HasBlock((short)(tileX - 1), tileZ) &&
-                    !tileMap.HasBlock((short)(tileX + 1), tileZ) &&
-                    !tileMap.HasBlock(tileX, (short)(tileZ - 1)) &&
-                    !tileMap.HasBlock(tileX, (short)(tileZ + 1)))
+                if ((Mathf.Abs(Velocity.x) > Mathf.Abs(Velocity.z) && canPlaceX) || !canPlaceZ)
                 {
-                    float x = xPosition % 1 - 0.5F;
-                    float z = zPosition % 1 - 0.5F;
-                    if (Mathf.Abs(x) > Mathf.Abs(z))
-                    {
-                        if (x > 0)
-                            tileX++;
-                        else
-                            tileX--;
-                    }
+                    if (Velocity.x < 0)
+                        hitX++;
                     else
-                    {
-                        if (z > 0)
-                            tileZ++;
-                        else
-                            tileZ--;
-                    }
+                        hitX--;
+                }
+                else
+                {
+                    if (Velocity.z < 0)
+                        hitZ++;
+                    else
+                        hitZ--;
                 }
             }
+            
+            if (ColorType != null)
+                tileMap.SetBlock(hitX, hitZ, ColorType ?? Game.ColorType.RED);
+        }
 
-            tileMap.SetBlock(new Block(tileX, tileZ, Color.Colors[0]));
+        void TryTriggerChainReaction(short hitX, short hitZ)
+        {
+            TileMap tileMap = GameManager.Instance.TileMap;
+            Block block = tileMap.GetBlock(hitX, hitZ);
+
+            if (block != null)
+            {
+                block.StartChainReaction();
+            }
         }
     }
 }

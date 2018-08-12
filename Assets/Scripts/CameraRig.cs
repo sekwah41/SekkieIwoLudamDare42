@@ -79,14 +79,9 @@ namespace Game
                 looking = new Vector3(x,0,z);
             }
 
-            Debug.Log(looking);
-
             wantedLoc += looking * maxLookAmount;
 
-
-            this.transform.position += wantedLoc * movePercent;
-
-
+            transform.position += wantedLoc * movePercent;
         }
     }
 }
