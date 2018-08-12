@@ -14,9 +14,16 @@ namespace Game
             Blocks = new Dictionary<uint, Block>();
         }
 
-        public void SetBlock(Block block)
+        public void SetBlock(short x, short y, ColorType colorType, bool checkClusters = true)
         {
-            Blocks[GetIndexForCoords(block.X, block.Y)] = block;
+            Block block = new Block(this, x, y, colorType);
+            Blocks[GetIndexForCoords(x, y)] = block;
+
+            if (checkClusters)
+            {
+                int sameNeighboursCount = block.CountSameNeighbours();
+                Debug.Log("Same Neighbours: " + sameNeighboursCount);
+            }
 
             if (TileMapObject != null)
             {
@@ -24,21 +31,26 @@ namespace Game
             }
         }
 
-        public Block GetBlock(short x, short y)
+        public Block GetBlock(short x, short z)
         {
-            uint index = GetIndexForCoords(x, y);
+            uint index = GetIndexForCoords(x, z);
             return Blocks.ContainsKey(index) ? Blocks[index] : null;
         }
 
-        public bool HasBlock(short x, short y)
+        public bool HasBlock(short x, short z)
         {
-            return Blocks.ContainsKey(GetIndexForCoords(x, y));
+            return Blocks.ContainsKey(GetIndexForCoords(x, z));
+        }
+
+        public void RemoveBlock(short x, short z)
+        {
+            Blocks.Remove(GetIndexForCoords(x, z));
         }
 
         public void CreateRepresentation()
         {
             if (TileMapObject != null)
-                Object.DestroyImmediate(TileMapObject);
+                UnityEngine.Object.DestroyImmediate(TileMapObject);
 
             TileMapObject = new GameObject("TileMap");
             TileMapObject.transform.SetPositionAndRotation(new Vector3(0, 0, 0), Quaternion.identity);
@@ -49,10 +61,10 @@ namespace Game
             }
         }
 
-        private uint GetIndexForCoords(short x, short y)
+        private uint GetIndexForCoords(short x, short z)
         {
             uint index = (uint)x << 16;
-            index |= (ushort)y;
+            index |= (ushort)z;
             return index;
         }
     }

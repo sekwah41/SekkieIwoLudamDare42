@@ -55,3 +55,10 @@ MonoBehaviour:
     type: 2}
   bulletPrefab: {fileID: 1492256772386232, guid: 0999aa38ef98f254eaa28922ccc81bda,
     type: 2}
+  spawners:
+  - enemyPrefab: {fileID: 1016855031012828, guid: c36022cb8f54deb46894d13463047b8d,
+      type: 2}
+    spawnDelay: 2
+  - enemyPrefab: {fileID: 1016855031012828, guid: 6b80d1122e25a3f4bbc845297abd037e,
+      type: 2}
+    spawnDelay: 3
