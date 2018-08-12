@@ -1,29 +1,32 @@
 ﻿using UnityEngine;
+using UnityEngine.PostProcessing;
 
 namespace Game
 {
     public class CameraRig : MonoBehaviour
     {
         public Player player;
-
-        bool useMouse = true;
-
-        new Camera camera;
-
         public float maxLookAmount;
+        public Color neutralVigneteColor;
+        public Color alertVigneteColor;
 
         Plane groundPlane = new Plane(new Vector3(0, 1, 0), new Vector3(0, 0, 0));
+        bool useMouse = true;
+        new Camera camera;
+        PostProcessingBehaviour postProcessingBehaviour;
 
         // Use this for initialization
         void Start()
         {
             camera = GetComponentInChildren<Camera>();
+            postProcessingBehaviour = GetComponentInChildren<PostProcessingBehaviour>();
         }
 
         void Update()
         {
             float vertX = Input.GetAxisRaw("HorizontalAim");
             float vertY = Input.GetAxisRaw("VerticalAim");
+
             if (!useMouse && Input.GetAxisRaw("Mouse X") != 0 && Input.GetAxisRaw("Mouse Y") != 0)
             {
                 useMouse = true;
@@ -50,6 +53,13 @@ namespace Game
             {
                 player.AimTowards(new Vector3(vertX, 0, vertY) + player.transform.position);
             }
+
+            VignetteModel.Settings vignetteSettings = postProcessingBehaviour.profile.vignette.settings;
+
+            vignetteSettings.color = GameManager.Instance.TimeLeftUntilComboDeath < 5 ? alertVigneteColor : neutralVigneteColor;
+            vignetteSettings.intensity = GameManager.Instance.TimeLeftUntilComboDeath < 5 ?  0.4F : 0.15F;
+
+            postProcessingBehaviour.profile.vignette.settings = vignetteSettings;
         }
 
         // Update is called once per frame
