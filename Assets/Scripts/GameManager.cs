@@ -32,8 +32,8 @@ namespace Game
 
         AudioSource audioSource;
 
-        int xRadius = 10;
-        int yRadius = 10;
+        int xRadius = 16;
+        int yRadius = 16;
 
         void Awake()
         {
@@ -123,6 +123,8 @@ namespace Game
             player.transform.position = new Vector3(0.5F, 0, 0.5F);
 
             StartNewRound();
+
+            Walls.Resize(xRadius, yRadius);
         }
 
         public void StartNewRound()
@@ -132,8 +134,8 @@ namespace Game
 
             int oldXRadius = xRadius;
             int oldYRadius = yRadius;
-            xRadius = 10 + (WaveCount-1) * SizePerWaveIncrement;
-            yRadius = 10 + (WaveCount-1) * SizePerWaveIncrement;
+            xRadius = 16 + (WaveCount-1) * SizePerWaveIncrement;
+            yRadius = 16 + (WaveCount-1) * SizePerWaveIncrement;
             Walls.Resize(xRadius, yRadius);
 
             // Left
@@ -207,7 +209,7 @@ namespace Game
         {
             while (true)
             {
-                yield return new WaitForSeconds(spawner.spawnDelay);
+                yield return new WaitForSeconds(spawner.spawnDelay + UnityEngine.Random.value * 2);
                 spawner.Spawn();
             }
         }
