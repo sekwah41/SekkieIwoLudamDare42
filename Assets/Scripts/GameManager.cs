@@ -18,6 +18,7 @@ namespace Game
         public GameObject bulletPrefab;
         public GameObject wallPrefab;
         public EnemySpawner[] spawners;
+        public float enemySpawnDelay = 2;
         public float WaveDuration = 10;
         public int SizePerWaveIncrement = 3;
         public float timeAllowedWithoutCombo = 20;
@@ -93,11 +94,6 @@ namespace Game
                     break;
                 case ScreenType.GAME:
                     StartGame();
-
-                    foreach (EnemySpawner spawner in spawners)
-                    {
-                        StartCoroutine(HandleSpawnEnemy(spawner));
-                    }
                     break;
                 case ScreenType.GAME_OVER:
                     UIManager.Instance.backgroundUI.ShowBackground();
@@ -151,6 +147,8 @@ namespace Game
             Points.Value = 0;
             TimeLeftUntilComboDeath = timeAllowedWithoutCombo;
             player.transform.position = new Vector3(0.5F, 0, 0.5F);
+
+            StartCoroutine(HandleSpawnEnemy());
 
             StartNewRound();
 
@@ -278,12 +276,23 @@ namespace Game
             audioSource.PlayOneShot(clusterAudio);
         }
 
-        IEnumerator HandleSpawnEnemy(EnemySpawner spawner)
+        IEnumerator HandleSpawnEnemy()
         {
             while (true)
             {
-                yield return new WaitForSeconds(spawner.spawnDelay + UnityEngine.Random.value * 2);
-                spawner.Spawn();
+                yield return new WaitForSeconds(enemySpawnDelay + UnityEngine.Random.value * 0.5F);
+
+                float random = UnityEngine.Random.value;
+                EnemySpawner chosenSpawner = spawners[0];
+                foreach (var spawner in spawners) {
+                    if (random <= spawner.spawnThreshold)
+                    {
+                        chosenSpawner = spawner;
+                        break;
+                    }
+
+                }
+                chosenSpawner.Spawn();
             }
         }
     }

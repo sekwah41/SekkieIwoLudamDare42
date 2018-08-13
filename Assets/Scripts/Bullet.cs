@@ -72,10 +72,10 @@ namespace Game
                     {
                         if (ColorType == null)
                         {
-                            SetColor(enemyBehaviour.color);
+                            SetColor(enemyBehaviour.ColorType);
                             killEnemy(enemyBehaviour);
                         }
-                        else if (enemyBehaviour.color == ColorType)
+                        else if (enemyBehaviour.ColorType == ColorType)
                         {
                             GameManager.Instance.AwardPoints(1);
                             killEnemy(enemyBehaviour);
