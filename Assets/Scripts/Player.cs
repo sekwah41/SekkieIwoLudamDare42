@@ -74,6 +74,9 @@ namespace Game
 
         public void Shoot()
         {
+            if (GameManager.Instance.CurrentScreen != ScreenType.GAME)
+                return;
+
             Vector3 direction = new Vector3(Mathf.Sin(yOrientation * Mathf.PI / 180.0F), 0, Mathf.Cos(yOrientation * Mathf.PI / 180.0F));
             GameObject bulletObject = Instantiate(GameManager.Instance.bulletPrefab);
             bulletObject.transform.SetPositionAndRotation(transform.position, Quaternion.identity);

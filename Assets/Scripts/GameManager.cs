@@ -26,6 +26,7 @@ namespace Game
         public TileMap TileMap { get; private set; }
         public Walls Walls { get; private set; }
         public TrackableValue<int> Points { get; private set; }
+        public int HighScore { get; private set; }
         public int WaveCount { get; private set; }
         public float WaveTimer { get; private set; }
         public float TimeLeftUntilComboDeath { get; private set; }
@@ -40,12 +41,20 @@ namespace Game
             Instance = this;
 
             audioSource = GetComponent<AudioSource>();
-            CurrentScreen = ScreenType.MAIN_MENU;
             TileMap = new TileMap();
             Walls = new Walls();
             Points = new TrackableValue<int>();
             WaveCount = 0;
             WaveTimer = 0;
+
+            HighScore = PlayerPrefs.GetInt("HighScore", 0);
+        }
+
+        void Start()
+        {
+            OpenScreen(ScreenType.MAIN_MENU);
+            TileMap.CreateRepresentation();
+            Walls.CreateRepresentation(xRadius, yRadius);
         }
 
         public bool IsOutOfBounds(short tileX, short tileZ)
@@ -55,12 +64,20 @@ namespace Game
 
         void OpenScreen(ScreenType screenType)
         {
+            Debug.Log("Opening " + screenType.ToString());
+
             switch (CurrentScreen)
             {
                 case ScreenType.MAIN_MENU:
+                    UIManager.Instance.backgroundUI.HideBackground();
+                    UIManager.Instance.HideMenuBits();
                     break;
                 case ScreenType.GAME:
-                    StopAllCoroutines();
+                    
+                    break;
+                case ScreenType.GAME_OVER:
+                    UIManager.Instance.backgroundUI.HideBackground();
+                    UIManager.Instance.HideGameOverBits();
                     break;
             }
 
@@ -73,9 +90,6 @@ namespace Game
                     UIManager.Instance.ShowMenuBits();
                     break;
                 case ScreenType.GAME:
-                    UIManager.Instance.backgroundUI.HideBackground();
-                    UIManager.Instance.HideMenuBits();
-
                     StartGame();
 
                     foreach (EnemySpawner spawner in spawners)
@@ -83,13 +97,11 @@ namespace Game
                         StartCoroutine(HandleSpawnEnemy(spawner));
                     }
                     break;
+                case ScreenType.GAME_OVER:
+                    UIManager.Instance.backgroundUI.ShowBackground();
+                    UIManager.Instance.ShowGameOverBits();
+                    break;
             }
-        }
-
-        void Start()
-        {
-            TileMap.CreateRepresentation();
-            Walls.CreateRepresentation(xRadius, yRadius);
         }
 
         void Update()
@@ -116,6 +128,16 @@ namespace Game
                     }
                     TimeLeftUntilComboDeath -= Time.deltaTime;
                     UIManager.Instance.comboSlider.value = TimeLeftUntilComboDeath / timeAllowedWithoutCombo;
+                    if (TimeLeftUntilComboDeath <= 0)
+                    {
+                        GameOver();
+                    }
+                    break;
+                case ScreenType.GAME_OVER:
+                    if (Input.GetButtonDown("Jump"))
+                    {
+                        OpenScreen(ScreenType.MAIN_MENU);
+                    }
                     break;
             }
         }
@@ -181,6 +203,35 @@ namespace Game
             }
         }
 
+        void GameOver()
+        {
+            if (CurrentScreen == ScreenType.GAME)
+            {
+                GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
+                foreach (GameObject enemy in enemies)
+                {
+                    Destroy(enemy);
+                }
+
+                GameObject[] bullets = GameObject.FindGameObjectsWithTag("Bullet");
+                foreach (GameObject bullet in bullets)
+                {
+                    Destroy(bullet);
+                }
+
+                ClearMap();
+
+                StopAllCoroutines();
+
+                if (Points.Value > HighScore)
+                {
+                    HighScore = Points.Value;
+                    PlayerPrefs.SetInt("HighScore", HighScore);
+                }
+                OpenScreen(ScreenType.GAME_OVER);
+            }
+        }
+
         void GenerateStartMap()
         {
             for (short x = (short)-xRadius; x <= xRadius; x++)
@@ -195,10 +246,24 @@ namespace Game
             }
         }
 
+        void ClearMap()
+        {
+            TileMap.Clear();
+        }
+
         public void AwardPoints(int points)
         {
             Points.Value = Points.Value + points;
             TimeLeftUntilComboDeath = timeAllowedWithoutCombo;
+        }
+
+        public void DrainEnergy(float amount)
+        {
+            TimeLeftUntilComboDeath -= amount;
+            if (TimeLeftUntilComboDeath <= 0)
+            {
+                GameOver();
+            }
         }
 
         public void PlayCrystaliseSound()
