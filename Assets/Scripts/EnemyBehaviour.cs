@@ -5,7 +5,7 @@ namespace Game
 {
     public class EnemyBehaviour : MonoBehaviour
     {
-        public ColorType color;
+        public ColorType ColorType { get; private set; }
 
         protected Player target;
 
@@ -19,7 +19,7 @@ namespace Game
             agent = GetComponent<NavMeshAgent>();
             target = GameManager.Instance.player;
             path = new NavMeshPath();
-            recalculate = 0.0f;
+            recalculate = 0.0F;
         }
 
         protected void Update()
@@ -36,6 +36,7 @@ namespace Game
                     agent.SetPath(path);
                 }
             }
+
             for (int i = 0; i < path.corners.Length - 1; i++)
                 Debug.DrawLine(path.corners[i], path.corners[i + 1], Color.red);
         }
@@ -51,6 +52,17 @@ namespace Game
             if (player != null)
             {
                 GameManager.Instance.DrainEnergy(1);
+            }
+        }
+
+        public void SetColor(ColorType colorType)
+        {
+            ColorType = colorType;
+            MeshRenderer[] renderers = GetComponentsInChildren<MeshRenderer>();
+
+            foreach (MeshRenderer renderer in renderers)
+            {
+                renderer.material.color = ColorUtils.GetColor(ColorType);
             }
         }
     }

@@ -156,18 +156,13 @@ MonoBehaviour:
     type: 2}
   wallPrefab: {fileID: 1146908867253844, guid: 297942fd93219574c889c242ac47f254, type: 2}
   spawners:
-  - enemyPrefab: {fileID: 1016855031012828, guid: c36022cb8f54deb46894d13463047b8d,
+  - enemyPrefab: {fileID: 1016855031012828, guid: 082f408d7e28fd74393ff12c959315a2,
       type: 2}
-    spawnDelay: 3
-  - enemyPrefab: {fileID: 1016855031012828, guid: 6b80d1122e25a3f4bbc845297abd037e,
+    spawnThreshold: 0.95
+  - enemyPrefab: {fileID: 1016855031012828, guid: a97eca58e90e907408ff49ff1e609ab3,
       type: 2}
-    spawnDelay: 3
-  - enemyPrefab: {fileID: 1016855031012828, guid: 532bb35db8f1e754897f53314754efc3,
-      type: 2}
-    spawnDelay: 3
-  - enemyPrefab: {fileID: 1016855031012828, guid: ac0027617f629a14e8147ea80029363a,
-      type: 2}
-    spawnDelay: 3
+    spawnThreshold: 1
+  enemySpawnDelay: 0.6
   WaveDuration: 60
   SizePerWaveIncrement: 0
-  timeAllowedWithoutCombo: 20
+  timeAllowedWithoutCombo: 25

@@ -279,7 +279,18 @@ namespace Game
             while (true)
             {
                 yield return new WaitForSeconds(enemySpawnDelay + UnityEngine.Random.value * 0.5F);
-                spawners[Mathf.RoundToInt((spawners.Length - 1) * UnityEngine.Random.value)].Spawn();
+
+                float random = UnityEngine.Random.value;
+                EnemySpawner chosenSpawner = spawners[0];
+                foreach (var spawner in spawners) {
+                    if (random <= spawner.spawnThreshold)
+                    {
+                        chosenSpawner = spawner;
+                        break;
+                    }
+
+                }
+                chosenSpawner.Spawn();
             }
         }
     }
