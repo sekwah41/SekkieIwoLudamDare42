@@ -7,14 +7,14 @@ namespace Game
     {
         public ColorType color;
 
-        Player target;
+        protected Player target;
 
-        private NavMeshPath path;
-        private float recalculate = 0.0f;
+        protected NavMeshPath path;
+        protected float recalculate = 0.0f;
 
-        NavMeshAgent agent;
+        protected NavMeshAgent agent;
 
-        void Start()
+        protected void Start()
         {
             agent = GetComponent<NavMeshAgent>();
             target = GameManager.Instance.player;
@@ -22,7 +22,7 @@ namespace Game
             recalculate = 0.0f;
         }
 
-        void Update()
+        protected void Update()
         {
             // agent.SetDestination(target.transform.position);
 
@@ -39,8 +39,13 @@ namespace Game
             for (int i = 0; i < path.corners.Length - 1; i++)
                 Debug.DrawLine(path.corners[i], path.corners[i + 1], Color.red);
         }
+        
+        public bool HitByBullet(Bullet bullet)
+        {
+            return false;
+        }
 
-        void OnCollisionEnter(Collision collision)
+        protected void OnCollisionEnter(Collision collision)
         {
             Player player = collision.collider.GetComponent<Player>();
             if (player != null)

@@ -32,7 +32,7 @@ namespace Game
         public void BreakWithReward()
         {
             Break();
-            GameManager.Instance.AwardPoints(1);
+            GameManager.Instance.AwardPoints(2);
         }
 
         public void Break()
@@ -52,7 +52,7 @@ namespace Game
                 {
                     block.BreakWithReward();
                 }
-                GameManager.Instance.AwardPoints((cluster.Count - 3) * 2);
+                GameManager.Instance.AwardPoints((cluster.Count - 3) * 3);
             }
         }
 
