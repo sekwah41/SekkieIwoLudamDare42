@@ -94,6 +94,12 @@ namespace Game
 
         void Update()
         {
+            if (Input.GetKeyDown(KeyCode.Escape))
+            {
+                Debug.Log("Quit");
+                Application.Quit();
+            }
+
             switch (CurrentScreen)
             {
                 case ScreenType.MAIN_MENU:

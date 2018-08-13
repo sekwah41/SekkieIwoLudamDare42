@@ -65,6 +65,8 @@ namespace Game
                     }
                     else if (enemyBehaviour.color == ColorType)
                     {
+
+                        GameManager.Instance.AwardPoints(1);
                         Destroy(enemyBehaviour.gameObject);
                     }
                 }
