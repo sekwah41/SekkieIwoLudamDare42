@@ -24,12 +24,12 @@ namespace Game
 
         void Update()
         {
-            //agent.SetDestination(target.transform.position);
+            // agent.SetDestination(target.transform.position);
 
             recalculate += Time.deltaTime;
-            if (recalculate > 0.5f)
+            if (recalculate > 0.5F)
             {
-                recalculate -= 0.5f;
+                recalculate -= 0.5F;
                 NavMesh.CalculatePath(transform.position, target.transform.position, NavMesh.AllAreas, path);
                 if(path.status != NavMeshPathStatus.PathInvalid)
                 {
@@ -38,6 +38,15 @@ namespace Game
             }
             for (int i = 0; i < path.corners.Length - 1; i++)
                 Debug.DrawLine(path.corners[i], path.corners[i + 1], Color.red);
+        }
+
+        void OnCollisionEnter(Collision collision)
+        {
+            Player player = collision.collider.GetComponent<Player>();
+            if (player != null)
+            {
+                GameManager.Instance.DrainEnergy(1);
+            }
         }
     }
 }

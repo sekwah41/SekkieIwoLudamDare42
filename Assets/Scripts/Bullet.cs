@@ -10,15 +10,25 @@ namespace Game
         TrailRenderer trailRenderer;
 
         Vector3 Velocity { get; set; }
+        Vector3 LastPosition { get; set; }
         float Lifetime { get; set; }
+        int EnemiesPassed { get; set; }
+
+        const int MaxEnemyPasses = 3;
 
         void Awake()
         {
             ColorType = null;
             Lifetime = 2;
+            EnemiesPassed = 0;
 
             renderer = GetComponent<MeshRenderer>();
             trailRenderer = GetComponent<TrailRenderer>();
+        }
+
+        void Start()
+        {
+            LastPosition = transform.position;
         }
 
         void Update()
@@ -32,8 +42,8 @@ namespace Game
                 Destroy(gameObject);
             }
 
-            short tileX = (short)Mathf.FloorToInt(newPosition.x);
-            short tileZ = (short)Mathf.FloorToInt(newPosition.z);
+            short tileX = (short) Mathf.FloorToInt(newPosition.x);
+            short tileZ = (short) Mathf.FloorToInt(newPosition.z);
 
             TileMap tileMap = GameManager.Instance.TileMap;
 
@@ -50,29 +60,34 @@ namespace Game
                 Destroy(gameObject);
             }
 
-            Ray ray = new Ray(transform.position, transform.forward);
+            Ray ray = new Ray(LastPosition, newPosition - LastPosition);
 
-            RaycastHit[] hits = Physics.RaycastAll(ray, 1);
+            RaycastHit[] hits = Physics.RaycastAll(ray, (newPosition - LastPosition).magnitude);
 
             foreach (RaycastHit hit in hits) {
                 EnemyBehaviour enemyBehaviour = hit.transform.gameObject.GetComponent<EnemyBehaviour>();
                 if (enemyBehaviour != null)
                 {
-                    if (ColorType == null)
+                    if (EnemiesPassed < MaxEnemyPasses)
                     {
-                        Destroy(enemyBehaviour.gameObject);
-                        SetColor(enemyBehaviour.color);
-                    }
-                    else if (enemyBehaviour.color == ColorType)
-                    {
-
-                        GameManager.Instance.AwardPoints(1);
-                        Destroy(enemyBehaviour.gameObject);
+                        if (ColorType == null)
+                        {
+                            Destroy(enemyBehaviour.gameObject);
+                            SetColor(enemyBehaviour.color);
+                            EnemiesPassed++;
+                        }
+                        else if (enemyBehaviour.color == ColorType)
+                        {
+                            GameManager.Instance.AwardPoints(1);
+                            Destroy(enemyBehaviour.gameObject);
+                            EnemiesPassed++;
+                        }
                     }
                 }
             }
             
             transform.position = newPosition;
+            LastPosition = transform.position;
         }
 
         public void SetVelocity(Vector3 velocity)
@@ -129,10 +144,11 @@ namespace Game
                 }
             }
 
-            GameManager.Instance.PlayCrystaliseSound();
-
-            if (ColorType != null)
+            if (ColorType != null && !GameManager.Instance.IsOutOfBounds(hitX, hitZ))
+            {
+                GameManager.Instance.PlayCrystaliseSound();
                 tileMap.SetBlock(hitX, hitZ, ColorType ?? Game.ColorType.RED);
+            }
         }
 
         void TryTriggerChainReaction(short hitX, short hitZ)

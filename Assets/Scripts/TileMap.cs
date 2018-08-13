@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using UnityEngine;
 
 namespace Game
@@ -72,6 +73,16 @@ namespace Game
             uint index = (uint)x << 16;
             index |= (ushort)z;
             return index;
+        }
+
+        public void Clear()
+        {
+            Dictionary<uint, Block>.ValueCollection blocks = Blocks.Values;
+            foreach (Block block in blocks)
+            {
+                GameObject.Destroy(block.Representation);
+            }
+            Blocks.Clear();
         }
     }
 }

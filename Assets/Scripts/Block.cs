@@ -29,10 +29,15 @@ namespace Game
             Representation.transform.SetParent(tileMapObject.transform);
         }
 
+        public void BreakWithReward()
+        {
+            Break();
+            GameManager.Instance.AwardPoints(1);
+        }
+
         public void Break()
         {
             TileMap.RemoveBlock(X, Z);
-            GameManager.Instance.AwardPoints(1);
             GameObject.Destroy(Representation);
         }
 
@@ -45,7 +50,7 @@ namespace Game
 
                 foreach (Block block in cluster)
                 {
-                    block.Break();
+                    block.BreakWithReward();
                 }
                 GameManager.Instance.AwardPoints((cluster.Count - 3) * 2);
             }
