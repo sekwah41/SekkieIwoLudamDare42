@@ -36,10 +36,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4729538509475348}
-  - component: {fileID: 114001663583677304}
   - component: {fileID: 65564147519195248}
   - component: {fileID: 195652124119803838}
   - component: {fileID: 54563592954396298}
+  - component: {fileID: 114385183656554210}
   m_Layer: 10
   m_Name: Exploder
   m_TagString: Enemy
@@ -216,7 +216,7 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0.5, z: 0}
---- !u!114 &114001663583677304
+--- !u!114 &114385183656554210
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
@@ -224,10 +224,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 1016855031012828}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e801cb9f4c261bc4d90c9f8e56bc135d, type: 3}
+  m_Script: {fileID: 11500000, guid: 039f6e083120e754e81c8fa83fb2e800, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  color: 0
 --- !u!195 &195652124119803838
 NavMeshAgent:
   m_ObjectHideFlags: 1

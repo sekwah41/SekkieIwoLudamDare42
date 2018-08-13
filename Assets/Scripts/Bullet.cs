@@ -95,7 +95,6 @@ namespace Game
                 Destroy(gameObject);
             }
             EnemiesPassed++;
-            Destroy(enemy.gameObject);
         }
 
         public void SetVelocity(Vector3 velocity)

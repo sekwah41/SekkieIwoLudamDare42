@@ -41,8 +41,9 @@ namespace Game
                 Debug.DrawLine(path.corners[i], path.corners[i + 1], Color.red);
         }
         
-        public bool HitByBullet(Bullet bullet)
+        public virtual bool HitByBullet(Bullet bullet)
         {
+            Destroy(gameObject);
             return false;
         }
 
