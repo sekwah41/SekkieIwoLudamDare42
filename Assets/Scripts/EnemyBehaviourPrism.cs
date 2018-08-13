@@ -12,9 +12,10 @@ namespace Game
         {
             Debug.Log("EXPLOSION");
             float yOrientation = bullet.transform.rotation.y;
-            for(int i = -1; i < 2; i++)
+            Debug.Log(yOrientation);
+            for (int i = 0; i < 1; i++)
             {
-                Shoot(new Vector3(Mathf.Sin(yOrientation * Mathf.PI / 180.0F + i * angleDiff), 0, Mathf.Cos(yOrientation * Mathf.PI / 180.0F + i * angleDiff)));
+                Shoot(new Vector3(Mathf.Cos(yOrientation + i * angleDiff), 0, Mathf.Sin(yOrientation + i * angleDiff)));
             }
             Destroy(gameObject);
             return true;

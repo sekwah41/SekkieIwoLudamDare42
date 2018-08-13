@@ -162,7 +162,8 @@ MonoBehaviour:
   - enemyPrefab: {fileID: 1016855031012828, guid: a97eca58e90e907408ff49ff1e609ab3,
       type: 2}
     spawnThreshold: 1
-  enemySpawnDelay: 0.6
+  enemySpawnDelay: 0.5
   WaveDuration: 60
   SizePerWaveIncrement: 0
   timeAllowedWithoutCombo: 25
+  bulletSpeed: 30
