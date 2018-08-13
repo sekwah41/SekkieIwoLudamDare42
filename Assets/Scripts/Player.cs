@@ -6,7 +6,6 @@ namespace Game
     public class Player : MonoBehaviour
     {
         public float playerSpeed = 3;
-        public float bulletSpeed = 20;
         public float rateOfFire = 20;
         public float shotReload = 0;
 
@@ -80,7 +79,7 @@ namespace Game
             Vector3 direction = new Vector3(Mathf.Sin(yOrientation * Mathf.PI / 180.0F), 0, Mathf.Cos(yOrientation * Mathf.PI / 180.0F));
             GameObject bulletObject = Instantiate(GameManager.Instance.bulletPrefab);
             bulletObject.transform.SetPositionAndRotation(transform.position, Quaternion.identity);
-            bulletObject.GetComponent<Bullet>().SetVelocity(direction.normalized * bulletSpeed);
+            bulletObject.GetComponent<Bullet>().SetVelocity(direction.normalized * GameManager.Instance.bulletSpeed);
 
             audioSource.Play();
         }
