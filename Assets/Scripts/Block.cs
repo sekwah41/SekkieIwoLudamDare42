@@ -9,8 +9,16 @@ namespace Game
         public short X { get; private set; }
         public short Z { get; private set; }
         public ColorType Color { get; private set; }
+        public int ClusterSize { get { return clusterSize; }
+            set {
+                if (Representation != null)
+                    Representation.ClusterSize = value;
+                clusterSize = value;
+            }
+        }
+        public BlockBehaviour Representation { get; private set; }
 
-        public GameObject Representation { get; private set; }
+        private int clusterSize = 0;
 
         public Block(TileMap tileMap, short x, short z, ColorType color)
         {
@@ -22,11 +30,12 @@ namespace Game
 
         public void CreateRepresentation(GameObject tileMapObject)
         {
-            Representation = Object.Instantiate(GameManager.Instance.blockPrefab);
-            MeshRenderer renderer = Representation.GetComponentInChildren<MeshRenderer>();
-            renderer.material.color = ColorUtils.GetColor(Color);
+            GameObject gameObject = Object.Instantiate(GameManager.Instance.blockPrefab);
+            Representation = gameObject.GetComponent<BlockBehaviour>();
             Representation.transform.SetPositionAndRotation(new Vector3(X, 0, Z), Quaternion.identity);
             Representation.transform.SetParent(tileMapObject.transform);
+            Representation.ClusterSize = ClusterSize;
+            Representation.SetColor(Color);
         }
 
         public void BreakWithReward()
@@ -38,7 +47,7 @@ namespace Game
         public void Break()
         {
             TileMap.RemoveBlock(X, Z);
-            GameObject.Destroy(Representation);
+            GameObject.Destroy(Representation.gameObject);
         }
 
         public void StartChainReaction()
@@ -66,6 +75,12 @@ namespace Game
         public int CountSameNeighbours()
         {
             List<Block> list = GetCluster();
+            
+            foreach (Block block in list)
+            {
+                block.ClusterSize = list.Count;
+            }
+
             return list.Count;
         }
 

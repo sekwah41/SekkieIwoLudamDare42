@@ -586,7 +586,7 @@ Prefab:
     - target: {fileID: 224182950733950678, guid: c4ba0f256922fb94ab3a87574a548bc9,
         type: 2}
       propertyPath: m_AnchoredPosition.x
-      value: -0.6882782
+      value: -0.68829346
       objectReference: {fileID: 0}
     - target: {fileID: 224182950733950678, guid: c4ba0f256922fb94ab3a87574a548bc9,
         type: 2}
@@ -757,6 +757,11 @@ Prefab:
         type: 2}
       propertyPath: timeAllowedWithoutCombo
       value: 25
+      objectReference: {fileID: 0}
+    - target: {fileID: 114457389732739786, guid: 9b05b61ba6019024dbe3b7eb81615a18,
+        type: 2}
+      propertyPath: enemySpawnDelay
+      value: 0.6
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9b05b61ba6019024dbe3b7eb81615a18, type: 2}

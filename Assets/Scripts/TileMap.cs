@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 namespace Game
@@ -29,7 +27,6 @@ namespace Game
             if (checkClusters)
             {
                 int sameNeighboursCount = block.CountSameNeighbours();
-                Debug.Log("Same Neighbours: " + sameNeighboursCount);
             }
 
             if (TileMapObject != null)
@@ -80,7 +77,7 @@ namespace Game
             Dictionary<uint, Block>.ValueCollection blocks = Blocks.Values;
             foreach (Block block in blocks)
             {
-                GameObject.Destroy(block.Representation);
+                GameObject.Destroy(block.Representation.gameObject);
             }
             Blocks.Clear();
         }
