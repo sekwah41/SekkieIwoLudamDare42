@@ -72,15 +72,13 @@ namespace Game
                     {
                         if (ColorType == null)
                         {
-                            Destroy(enemyBehaviour.gameObject);
                             SetColor(enemyBehaviour.color);
-                            EnemiesPassed++;
+                            killEnemy(enemyBehaviour);
                         }
                         else if (enemyBehaviour.color == ColorType)
                         {
                             GameManager.Instance.AwardPoints(1);
-                            Destroy(enemyBehaviour.gameObject);
-                            EnemiesPassed++;
+                            killEnemy(enemyBehaviour);
                         }
                     }
                 }
@@ -88,6 +86,16 @@ namespace Game
             
             transform.position = newPosition;
             LastPosition = transform.position;
+        }
+
+        private void killEnemy(EnemyBehaviour enemy)
+        {
+            if(enemy.HitByBullet(this))
+            {
+                Destroy(gameObject);
+            }
+            EnemiesPassed++;
+            Destroy(enemy.gameObject);
         }
 
         public void SetVelocity(Vector3 velocity)

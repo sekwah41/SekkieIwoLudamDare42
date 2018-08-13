@@ -21,6 +21,8 @@ namespace Game
         public float WaveDuration = 10;
         public int SizePerWaveIncrement = 3;
         public float timeAllowedWithoutCombo = 20;
+        
+        public float bulletSpeed = 30;
 
         public ScreenType CurrentScreen { get; set; }
         public TileMap TileMap { get; private set; }
